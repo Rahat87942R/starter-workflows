@@ -1,8 +1,8 @@
 name: Issue assignment
 
 on:
-    issues:
-        types: [opened]
+  discussion:
+    types: [created, edited, answered]
 
 jobs:
     auto-assign:
