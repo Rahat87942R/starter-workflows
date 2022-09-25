@@ -1,8 +1,7 @@
 name: Issue assignment
 
 on:
-  discussion:
-    types: [created, edited, answered]
+  workflow_dispatch
 
 jobs:
     auto-assign:
