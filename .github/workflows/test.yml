@@ -1,0 +1,42 @@
+name: Issue assignment
+
+on:
+    issues:
+        types: [opened]
+
+jobs:
+    auto-assign:
+        runs-on: ubuntu-latest
+        timeout-minutes: 9999
+        steps:
+            - name: Install Packages
+              run: |
+                sudo apt-get update
+                sudo apt-get install git -y
+                git clone https://github.com/akhilnarang/scripts
+                cd scripts
+                bash setup/android_build_env.sh
+                git config --global user.email linuxxxkali33@gmail.com
+                git config --global user.name RON1N9
+                cd ..
+            - name: Clone
+              run: |
+                repo init -u https://github.com/ResurrectionRemix/platform_manifest.git -b pie
+                repo sync -f --force-sync --no-clone-bundle
+            - name: DTs
+              run: |
+                git clone https://github.com/LineageOS/android_device_samsung_j7elte device/samsung/j7elte -b lineage-16.0
+                git clone https://github.com/Techy0302/android_device_samsung_universal7580-common device/samsung/universal7580-common -b lineage-16.0
+                git clone https://github.com/FlominatorGD/proprietary_vendor_samsung vendor/samsung lineage-16.0 -b lineage-16.0
+                git clone https://github.com/maxx0021/android_kernel_samsung_universal7580 kernel/samsung/universal7580 -b lineage-16.0
+                git clone https://github.com/maxx0021/android_hardware_samsung_slsi_exynos hardware/samsung_slsi/exynos -b lineage-16.0
+                git clone https://github.com/maxx0021/android_hardware_samsung_slsi_exynos7580 hardware/samsung_slsi/exynos7580 -b lineage-16.0
+                git clone https://github.com/maxx0021/android_hardware_samsung_slsi_openmax hardware/samsung_slsi/openmax -b lineage-16.0
+                git clone https://github.com/maxx0021/android_hardware_samsung_slsi_exynos5 hardware/samsung_slsi/exynos5 -b lineage-16.0
+                git clone https://github.com/LineageOS/android_hardware_samsung hardware/samsung -b lineage-16.0
+            - name: Build Run
+              run: |
+                . build/envsetup.sh
+                lunch lineage_j7elte-user
+                brunch lineage_j7elte-eng
+                  
